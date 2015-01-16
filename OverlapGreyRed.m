@@ -1,9 +1,47 @@
-function [show_stack] = OverlapGreyRed(BaseImage,HighlightImage,UseNeg,HighlightImage2,TreatAsLogical)
-%make an image that is grey BaseImage with red highlight of HighLightImage;
+function [show_stack] = OverlapGreyRed(BaseImage,HighlightImage,UseNeg,HighlightImage2,TreatAsLogical,NoNormalisation,ImageRange)
+%[show_stack] = BaseImage,HighlightImage,UseNeg,HighlightImage2,TreatAsLogical,NoNormalisation,ImageRange)
+%make an image that is grey BaseImage with red highlight of HighLightImage and blue highlight of highlight image 2;
+%
+%  ARGUMENTS
+%
+% BaseImage         -   the iamge that will be grey scaled
+% HighlightImage    -   the red highlight image
+% UseNeg            -   logical -whether to maintain the negative part of a
+%                       highlight image (so that negative areas will appear
+%                       opposite of red)
+% HighlightImage2   -   blue highlight image
+% TreatAsLogical    -   treat highlight image as logical (so just make
+%                       positive bits a flat red/green colour)
+% NoNormalisation   -   scale so the dynamic range of the image is between ImageRange(i,:) in
+%                       each channel i (i = 1 => base , i=2 => highlight
+%                       i = 3 => highligh2
+% ImageRange        -   range to use of NoNormalisation is true.
+%
+% Notes on return scale. If TreatAsLogical is true the image will be
+% between 0 and 0.8, with highlights set to 1 in the appropriate slice.
+% If this is not so, the image will be between 0 and 1, with a pixel with
+% no highlights being 0.5 in all channels.
 
-BaseImage = IMNormalise(BaseImage);
 
-if nargin<2 || isempty(HighlightImage)
+if nargin<6 || isempty(NoNormalisation)
+    NoNormalisation = false;
+end
+
+if nargin<7 || isempty(ImageRange)
+    NoNormalisation = false;
+end
+
+
+if NoNormalisation
+    
+    BaseImage = IMNormalise3(BaseImage,ImageRange(1,:));
+    
+else
+    BaseImage = IMNormalise(BaseImage);
+end
+
+
+if nargin<2 || isempty(HighlightImage) 
     
     HighlightImage = zeros(size(BaseImage));
     
@@ -15,21 +53,46 @@ if nargin<4 || isempty(HighlightImage2)
     
 end
 
-if nargin<3 || isempty(UseNeg) || ~UseNeg
-
-    HighlightImage = IMNormalise(HighlightImage);
-    HighlightImage2 = IMNormalise(HighlightImage2);
-
+if NoNormalisation && size(ImageRange,1)>1
+    
+    HighlightImage = IMNormalise3(HighlightImage,ImageRange(2,:));
+    
 else
-
-    HighlightImage = IMNormalise2(HighlightImage);
-    HighlightImage2 = IMNormalise2(HighlightImage2);
+    
+    if nargin<3 || isempty(UseNeg) || ~UseNeg
+        
+        HighlightImage = IMNormalise(HighlightImage);
+        
+    else
+        
+        HighlightImage = IMNormalise2(HighlightImage);
+        
+    end
     
 end
-   
+
+if NoNormalisation && size(ImageRange,1)>2
+    
+    HighlightImage2 = IMNormalise3(HighlightImage2,ImageRange(3,:));
+    
+else
+    
+    if nargin<3 || isempty(UseNeg) || ~UseNeg
+        
+        HighlightImage2 = IMNormalise(HighlightImage2);
+        
+    else
+        
+        HighlightImage2 = IMNormalise2(HighlightImage2);
+        
+    end
+    
+end
+
 if nargin<5 || isempty(TreatAsLogical)
     TreatAsLogical = false;
 end
+
 
 if TreatAsLogical
     
@@ -72,4 +135,11 @@ if m>0
 end
 
 end
+end
+
+function Image = IMNormalise3(Image,ImageRange)
+    Image(Image < ImageRange(1)) = ImageRange(1);
+    Image(Image > ImageRange(2)) = ImageRange(2);
+    Image = Image-ImageRange(1);
+    Image = Image/(ImageRange(2)-ImageRange(1));
 end

@@ -3,16 +3,27 @@
 %% for single plots
 
 h = gcf;
+LW = 1;
+FS = 14;
 set(h,'PaperUnits','centimeters',...
      'PaperPosition',[0 0 20 10]) %[0 0 width height]
-set(get(h,'children'),'FontSize',12,'LineWidth',0.9)
+set(get(h,'children'),'FontSize',FS,'LineWidth',LW)
+set(get(get(h,'children'),'children'),'LineWidth',LW)
 
-%%
+
+%% for plots
 set(h,'LooseInset',get(h,'TightInset'))
+
+%% for images
+set(gca,'position',[0 0 1 1],'units','normalized','LineWidth',10);
+aspect_ratio = get(gca,'PlotBoxAspectRatio'); 
+set(gcf,'PaperUnits','centimeters',...
+     'PaperPosition',[0 0 (aspect_ratio(1)/aspect_ratio(2))*10 10]) %[0 0 width height]
+
 
 %% writeup
 
-location = '~/Dropbox/ongoing_writeup/logbook_and_notebook_images/segmentation_and_active_contour/2014_04_25_transfomedOOF.png';
+location = '~/Dropbox/ongoing_writeup/logbook_and_notebook_images/segmentation_and_active_contour/2014_10_07_diff_fluor_brightness.png';
 
 %% facs locations
 
@@ -24,14 +35,14 @@ dirrr = uigetdir('~/Documents');
 
 nameeee = inputdlg('file name','name box',1,{'.png'});
 
-
+nameeee = nameeee{1};
 %% same dir
 
-nameeee = 'a.png'
+%nameeee = 'a.png'
 
 location = fullfile(dirrr,nameeee)
-%%
+  
 
-saveas(h,location,'png')
+saveas(gca,location,'png')
 
 

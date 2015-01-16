@@ -1,5 +1,7 @@
 function [ filenames_cell ] = getFiles( directory,search_string,remove_dir,remove_clutter )
-%[ filenames_cell ] = getFiles( directory,search_string )
+%[ filenames_cell ] = getFiles( directory,search_string,remove_dir,remove_clutter )
+% uses regexp to find compare the names of the files with search_string. If
+% you want only exact matches use ^string$
 
 if nargin<2 || isempty(search_string) || ~ischar(search_string)
     
