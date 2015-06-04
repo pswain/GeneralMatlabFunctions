@@ -49,9 +49,9 @@ classdef GenericStackViewingGUI <StackViewingGUI
                     
                     for i=1:Self.MaxStackDepth
                         SmallStack = Self.stack(:,:,i*3 + [-2 -1 0]);
-                        Self.stack_min(i) = min(SmallStack(:));
+                        Self.stack_min(1,1,i) = min(SmallStack(:));
                         
-                        Self.stack_max(i) = max(SmallStack(:));
+                        Self.stack_max(1,1,i) = max(SmallStack(:));
                     end
                     Self.StackDepth = 1;
                 
@@ -70,6 +70,10 @@ classdef GenericStackViewingGUI <StackViewingGUI
            
             
             Self = LaunchGUI@StackViewingGUI(Self);
+            Self.MainImageHandle = subimage(zeros(size(Self.stack,1),size(Self.stack,2)));
+            set(Self.MainAxisHandle, 'xtick',[],'ytick',[]);
+            Self.UpdateImages;
+        
             
         end
         
@@ -95,6 +99,7 @@ classdef GenericStackViewingGUI <StackViewingGUI
                 
                 %set(StackViewer.MainAxisHandle,'ylim',[0.5 (size(ProspectiveCData,1) + 0.5)])
                 %set(StackViewer.MainAxisHandle,'xlim',[0.5 (size(ProspectiveCData,2) + 0.5)])
+                
                 title(StackViewer.MainAxisHandle,sprintf('slice %d',StackViewer.StackDepth));
                 
                 %this example is for an image of size 12.
