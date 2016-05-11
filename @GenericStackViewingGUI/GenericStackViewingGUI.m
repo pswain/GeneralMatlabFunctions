@@ -6,11 +6,12 @@ classdef GenericStackViewingGUI <StackViewingGUI
         stack_min
         stack_max
         type = 'simple-stack'; %'simple-stack','cell','tri-stack'
+        normalisation = 1;
     end
     
     methods
         
-        function Self = GenericStackViewingGUI(stack,type)
+        function Self = GenericStackViewingGUI(stack,type,normalisation)
             
             if nargin<1
                 stack = [];
@@ -20,8 +21,14 @@ classdef GenericStackViewingGUI <StackViewingGUI
                 type = 'simple-stack';
             end
             
+            if nargin<3 || isempty(normalisation)
+                normalisation = 'all';
+            end
+            
             Self = Self@StackViewingGUI();
             
+            Self.type = type;
+            Self.normalisation = normalisation;
             if nargin>0
                 
                 Self.stack = stack;
@@ -42,7 +49,7 @@ classdef GenericStackViewingGUI <StackViewingGUI
                     Self.MaxStackDepth = size(Self.stack,3);
                     
                     Self.StackDepth = 1;
-                    
+                
                 case 'tri-stack'
                 
                     Self.MaxStackDepth = size(Self.stack,3)/3;
@@ -66,6 +73,14 @@ classdef GenericStackViewingGUI <StackViewingGUI
                     end
                     Self.StackDepth = 1;
                    
+            end
+            
+            switch Self.normalisation
+                case 'all'
+                    Self.stack_min(:) = min(Self.stack_min);
+                    
+                    Self.stack_max(:) = max(Self.stack_max);
+                    
             end
            
             

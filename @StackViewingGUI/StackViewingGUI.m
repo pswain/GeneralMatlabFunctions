@@ -32,8 +32,11 @@ classdef StackViewingGUI < handle
         scrsz = get(0,'ScreenSize');
             
             
-        
-         Self.FigureHandle = figure('Position',[scrsz(3)/3 scrsz(4)/3 scrsz(3)/2 scrsz(4)/2]);
+        if isempty(Self.FigureHandle) || ~Self.FigureHandle.isvalid
+            Self.FigureHandle = figure('Position',[scrsz(3)/3 scrsz(4)/3 scrsz(3)/2 scrsz(4)/2]);
+        else
+            figure(Self.FigureHandle);
+        end
          Self.ImagePanel = uipanel('Parent',Self.FigureHandle,...
                 'Position',[.015 .02 .67 .95 ]);
             Self.ButtonPanel = uipanel('Parent',Self.FigureHandle,...

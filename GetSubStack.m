@@ -44,7 +44,7 @@ end
                 
             corresponding_range{dimensioni} = 1:SizeOfSubStack(dimensioni);
         
-            good_values = range{dimensioni}>1 & range{dimensioni}<=StackSize(dimensioni);
+            good_values = range{dimensioni}>=1 & range{dimensioni}<=StackSize(dimensioni);
             
             range{dimensioni} = range{dimensioni}(good_values);
             corresponding_range{dimensioni} = corresponding_range{dimensioni}(good_values);
