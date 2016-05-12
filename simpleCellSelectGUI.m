@@ -67,7 +67,9 @@ while keep_select
         otherwise
             % line => add a cell
             area = areaFromPolygon(selected_line,size(assignments));
-            assignments(area) = 0;
+            % dilate to create a non contact border around new area
+            se = strel('disk',1);
+            assignments(imdilate(area,se,'same')) = 0;
             assignments(area) = max(assignments(:)) +1;       
     end
 
