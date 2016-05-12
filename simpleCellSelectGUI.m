@@ -1,4 +1,4 @@
-function [ assigments ] = simpleCellSelectGUI(img,assignments )
+function [ assignments ] = simpleCellSelectGUI(img,assignments )
 % [ assigments ] = simpleCellSelectGUI(show_img,initial_assignments )
 %
 % a simple gui for select and removing cells in an image. takes an image
