@@ -1,6 +1,5 @@
 function [ assignments ] = simpleCellSelectGUI(img,assignments )
-% [ assigments ] = simpleCellSelectGUI(show_img,initial_assignments )
-%
+% [ assignments ] = simpleCellSelectGUI(show_img,initial_assignments )
 % a simple gui for select and removing cells in an image. takes an image
 % (img) and a labelled img (just a bwlabel of a logical). It then displayed
 % the image with a jet color map for inspection and another copy with
@@ -10,7 +9,7 @@ function [ assignments ] = simpleCellSelectGUI(img,assignments )
 % right click  =>  remove an area
 %
 % one left click followed by one right click => draws a single line which
-% is used to separate two joined cells (i.e. all cells under that line are
+% is used to separate two joined cells (i.e. all pixels under that line are
 % set to zero)
 %
 % series of left clicks terminated with a right click => draws an area
@@ -34,13 +33,16 @@ img = img/max(img(:));
 img = repmat(img,[1,1,3]);
 
 f = figure('Menu','none');
-
+show_img = makeShowImage(img,assignments);
+imshow(show_img,[]);
+f_position = get(f,'position');
 keep_select = true;
 
 while keep_select 
     figure(f);
     show_img = makeShowImage(img,assignments);
     imshow(show_img,[]);
+    set(f,'position',f_position);
     selected_line = getline('closed');
     switch size(selected_line,1);
         case 0
@@ -72,7 +74,7 @@ while keep_select
             assignments(imdilate(area,se,'same')) = 0;
             assignments(area) = max(assignments(:)) +1;       
     end
-
+    f_position = get(f,'position');
 end
 
 close(f);
