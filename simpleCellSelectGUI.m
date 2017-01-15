@@ -1,6 +1,5 @@
 function [ assignments ] = simpleCellSelectGUI(img,assignments )
 % [ assignments ] = simpleCellSelectGUI(show_img,initial_assignments )
-%
 % a simple gui for select and removing cells in an image. takes an image
 % (img) and a labelled img (just a bwlabel of a logical). It then displayed
 % the image with a jet color map for inspection and another copy with
