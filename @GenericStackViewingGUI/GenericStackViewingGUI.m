@@ -1,5 +1,7 @@
 classdef GenericStackViewingGUI <StackViewingGUI
-    %GENERICSTACKVIEWINGGUI View an nxmxz stack
+    %GENERICSTACKVIEWINGGUI View an nxmxz stack in a small gui where you
+    %can roll through the images. Subclass of the broader StackViewingGUI
+    %(which has a button).
     
     properties
         stack
@@ -12,7 +14,19 @@ classdef GenericStackViewingGUI <StackViewingGUI
     methods
         
         function Self = GenericStackViewingGUI(stack,type,normalisation)
-            
+            % Self = GenericStackViewingGUI(stack,type,normalisation)
+            % stack             - the stack of images
+            % type              - type of stack
+            %                     - 'simple-stack' if it is just an nxmxz
+            %                        stack of images.
+            %                     - 'cell' if it is a cell array with each
+            %                        cell being an RGB image.
+            %                     - 'tri-stack' if each 3 slices of the
+            %                        stack makes an RGB image.
+            % normalisation     - 'all' normalise all images using the
+            %                     global max/min. 
+            %                     if anything else use the default of
+            %                     normalising each slice individually.
             if nargin<1
                 stack = [];
             end
