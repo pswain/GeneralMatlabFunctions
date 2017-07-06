@@ -9,6 +9,7 @@ classdef GenericStackViewingGUI <StackViewingGUI
         stack_max
         type = 'simple-stack'; %'simple-stack','cell','tri-stack'
         normalisation = 1;
+        title = 'generic stack gui'
     end
     
     methods
@@ -129,7 +130,7 @@ classdef GenericStackViewingGUI <StackViewingGUI
                 %set(StackViewer.MainAxisHandle,'ylim',[0.5 (size(ProspectiveCData,1) + 0.5)])
                 %set(StackViewer.MainAxisHandle,'xlim',[0.5 (size(ProspectiveCData,2) + 0.5)])
                 
-                title(StackViewer.MainAxisHandle,sprintf('slice %d',StackViewer.StackDepth));
+                title(StackViewer.MainAxisHandle,sprintf('%s : slice %d',StackViewer.title,StackViewer.StackDepth));
                 
                 %this example is for an image of size 12.
         
