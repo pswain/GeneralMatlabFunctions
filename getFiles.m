@@ -16,7 +16,7 @@ if nargin<3 || isempty(remove_dir)
 end
 
 
-clutter = {'.' '..' '.DS_Store'};
+clutter = {'.' '..' '.DS_Store','._.DS_Store'};
 
 if nargin<4 || isempty(remove_clutter) 
     
