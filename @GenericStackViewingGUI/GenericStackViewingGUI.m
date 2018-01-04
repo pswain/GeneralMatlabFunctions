@@ -9,7 +9,7 @@ classdef GenericStackViewingGUI <StackViewingGUI
         stack_max
         type = 'simple-stack'; %'simple-stack','cell','tri-stack'
         normalisation = 1;
-        title = 'generic stack gui'
+        title = 'generic stack gui' % either a string or a cell array of strings (1 for each slice)
     end
     
     methods
@@ -129,9 +129,11 @@ classdef GenericStackViewingGUI <StackViewingGUI
                 
                 %set(StackViewer.MainAxisHandle,'ylim',[0.5 (size(ProspectiveCData,1) + 0.5)])
                 %set(StackViewer.MainAxisHandle,'xlim',[0.5 (size(ProspectiveCData,2) + 0.5)])
-                
-                title(StackViewer.MainAxisHandle,sprintf('%s : slice %d',StackViewer.title,StackViewer.StackDepth));
-                
+                if isstr(StackViewer.title)
+                    title(StackViewer.MainAxisHandle,sprintf('%s : slice %d',StackViewer.title,StackViewer.StackDepth),'Interpreter','none');
+                elseif iscell(StackViewer.title)
+                    title(StackViewer.MainAxisHandle,sprintf('%s',StackViewer.title{StackViewer.StackDepth}),'Interpreter','none');
+                end
                 %this example is for an image of size 12.
         
         end
